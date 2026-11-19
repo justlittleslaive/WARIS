@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { ArrowLeft, CheckCircle2, Circle, Printer } from 'lucide-react'
+import { BrandBadge } from '../components/BrandBadge'
 import { useProfile } from '../context/ProfileContext'
 import { useToast } from '../context/ToastContext'
 import type { TranslationKey } from '../data/i18n'
@@ -28,24 +29,24 @@ export function SummaryPage() {
   const tdClass = 'px-3 py-2 text-sm text-ink align-top'
 
   return (
-    <div className="mx-auto max-w-4xl space-y-4">
+    <div className="ui-page enter-page">
       <header className="no-print flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-ink">{t('summary.title')}</h1>
+          <h1 className="ui-title">{t('summary.title')}</h1>
           <p className="mt-1 text-sm text-ink-soft">{t('summary.subtitle')}</p>
         </div>
         <div className="flex flex-wrap gap-2">
           <button
             type="button"
             onClick={() => window.print()}
-            className="inline-flex items-center gap-2 rounded-xl bg-brand px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-dark"
+            className="ui-button"
           >
             <Printer className="h-4 w-4" aria-hidden="true" />
             {t('summary.print')}
           </button>
           <Link
-            to="/"
-            className="inline-flex items-center gap-2 rounded-xl border border-line px-4 py-2 text-sm font-semibold text-ink transition hover:bg-canvas"
+            to="/app"
+            className="ui-button-secondary"
           >
             <ArrowLeft className="h-4 w-4" aria-hidden="true" />
             {t('summary.back')}
@@ -55,10 +56,11 @@ export function SummaryPage() {
 
       <article
         id="print-report"
-        className="print-report rounded-2xl border border-line bg-surface p-6 shadow-sm"
+        className="print-report ui-panel min-w-0 p-4 sm:p-6"
       >
         <div className="border-b border-line pb-4">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand">
+          <BrandBadge wordmark className="h-12 w-auto" />
+          <p className="mt-3 text-xs font-bold uppercase tracking-[0.2em] text-brand">
             {t('summary.reportBrand')}
           </p>
           <h2 className="mt-1 text-xl font-bold text-ink">{t('summary.reportTitle')}</h2>
@@ -83,83 +85,87 @@ export function SummaryPage() {
 
         <section className="mt-6">
           <h3 className="report-section-title text-sm font-bold text-ink">{t('summary.assets')}</h3>
-          <table className="mt-2 w-full text-left">
-            <thead>
-              <tr className="border-b border-line">
-                <th scope="col" className={thClass}>{t('assets.colName')}</th>
-                <th scope="col" className={thClass}>{t('assets.colCategory')}</th>
-                <th scope="col" className={thClass}>{t('assets.colInstitution')}</th>
-                <th scope="col" className={thClass}>{t('assets.colValue')}</th>
-                <th scope="col" className={thClass}>{t('assets.colDocument')}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {profile.assets.length === 0 ? (
+          <div className="report-table-scroll mt-2 overflow-x-auto">
+            <table className="w-full min-w-[640px] text-left">
+              <thead>
                 <tr className="border-b border-line">
-                  <td colSpan={5} className={`${tdClass} italic text-ink-soft`}>
-                    {t('summary.notRecorded')}
+                  <th scope="col" className={thClass}>{t('assets.colName')}</th>
+                  <th scope="col" className={thClass}>{t('assets.colCategory')}</th>
+                  <th scope="col" className={thClass}>{t('assets.colInstitution')}</th>
+                  <th scope="col" className={thClass}>{t('assets.colValue')}</th>
+                  <th scope="col" className={thClass}>{t('assets.colDocument')}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {profile.assets.length === 0 ? (
+                  <tr className="border-b border-line">
+                    <td colSpan={5} className={`${tdClass} italic text-ink-soft`}>
+                      {t('summary.notRecorded')}
+                    </td>
+                  </tr>
+                ) : (
+                  profile.assets.map((asset) => (
+                    <tr key={asset.id} className="border-b border-line">
+                      <td className={tdClass}>{asset.name}</td>
+                      <td className={tdClass}>{asset.category}</td>
+                      <td className={tdClass}>{asset.institution || t('common.notProvided')}</td>
+                      <td className={tdClass}>{formatMoney(asset.estimatedValue, profile.language)}</td>
+                      <td className={tdClass}>{asset.documentLocation || t('common.notProvided')}</td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colSpan={3} className={`${tdClass} font-semibold`}>
+                    {t('summary.total')}
+                  </td>
+                  <td className={`${tdClass} font-bold`} colSpan={2}>
+                    {formatMoney(total, profile.language)}
                   </td>
                 </tr>
-              ) : (
-                profile.assets.map((asset) => (
-                  <tr key={asset.id} className="border-b border-line">
-                    <td className={tdClass}>{asset.name}</td>
-                    <td className={tdClass}>{asset.category}</td>
-                    <td className={tdClass}>{asset.institution || t('common.notProvided')}</td>
-                    <td className={tdClass}>{formatMoney(asset.estimatedValue, profile.language)}</td>
-                    <td className={tdClass}>{asset.documentLocation || t('common.notProvided')}</td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-            <tfoot>
-              <tr>
-                <td colSpan={3} className={`${tdClass} font-semibold`}>
-                  {t('summary.total')}
-                </td>
-                <td className={`${tdClass} font-bold`} colSpan={2}>
-                  {formatMoney(total, profile.language)}
-                </td>
-              </tr>
-            </tfoot>
-          </table>
+              </tfoot>
+            </table>
+          </div>
         </section>
 
         <section className="mt-6">
           <h3 className="report-section-title text-sm font-bold text-ink">{t('summary.contacts')}</h3>
-          <table className="mt-2 w-full text-left">
-            <thead>
-              <tr className="border-b border-line">
-                <th scope="col" className={thClass}>{t('family.name')}</th>
-                <th scope="col" className={thClass}>{t('family.relationship')}</th>
-                <th scope="col" className={thClass}>{t('family.phone')}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {profile.contacts.length === 0 ? (
+          <div className="report-table-scroll mt-2 overflow-x-auto">
+            <table className="w-full min-w-[480px] text-left">
+              <thead>
                 <tr className="border-b border-line">
-                  <td colSpan={3} className={`${tdClass} italic text-ink-soft`}>
-                    {t('summary.notRecorded')}
-                  </td>
+                  <th scope="col" className={thClass}>{t('family.name')}</th>
+                  <th scope="col" className={thClass}>{t('family.relationship')}</th>
+                  <th scope="col" className={thClass}>{t('family.phone')}</th>
                 </tr>
-              ) : (
-                profile.contacts.map((contact) => (
-                  <tr key={contact.id} className="border-b border-line">
-                    <td className={tdClass}>
-                      {contact.name}
-                      {contact.isPrimaryContact ? (
-                        <span className="ml-2 rounded-full bg-brand/10 px-2 py-0.5 text-[10px] font-semibold text-brand">
-                          {t('summary.primaryMark')}
-                        </span>
-                      ) : null}
+              </thead>
+              <tbody>
+                {profile.contacts.length === 0 ? (
+                  <tr className="border-b border-line">
+                    <td colSpan={3} className={`${tdClass} italic text-ink-soft`}>
+                      {t('summary.notRecorded')}
                     </td>
-                    <td className={tdClass}>{contact.relationship}</td>
-                    <td className={tdClass}>{contact.phone || t('common.notProvided')}</td>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+                ) : (
+                  profile.contacts.map((contact) => (
+                    <tr key={contact.id} className="border-b border-line">
+                      <td className={tdClass}>
+                        {contact.name}
+                        {contact.isPrimaryContact ? (
+                          <span className="ui-badge ml-2">
+                            {t('summary.primaryMark')}
+                          </span>
+                        ) : null}
+                      </td>
+                      <td className={tdClass}>{contact.relationship}</td>
+                      <td className={tdClass}>{contact.phone || t('common.notProvided')}</td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
         </section>
 
         <section className="mt-6">
@@ -191,13 +197,13 @@ export function SummaryPage() {
         </p>
       </article>
 
-      <div className="no-print space-y-2 rounded-2xl border border-line bg-surface p-4 shadow-sm">
+      <div className="no-print ui-panel space-y-2 p-4">
         <label className="flex items-start gap-3 text-sm text-ink">
           <input
             type="checkbox"
             checked={profile.readiness.emergency}
             onChange={(event) => toggleReviewed(event.target.checked)}
-            className="mt-0.5 h-4 w-4 accent-[#0F766E]"
+            className="mt-0.5 h-4 w-4 accent-brand"
           />
           <span>{t('summary.review')}</span>
         </label>

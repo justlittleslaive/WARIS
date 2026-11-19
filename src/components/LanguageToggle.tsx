@@ -13,15 +13,15 @@ export function LanguageToggle() {
     }
   }
 
-  const base = 'rounded-full px-3 py-1 text-xs font-semibold transition'
-  const active = 'bg-brand text-white shadow-sm'
-  const idle = 'text-ink-soft hover:text-ink'
+  const base = 'min-h-8 rounded-md px-2.5 py-1 text-xs font-semibold transition-colors'
+  const active = 'bg-white text-gray-950 shadow-sm ring-1 ring-gray-200'
+  const idle = 'text-gray-500 hover:text-gray-900'
 
   return (
     <div
       role="group"
       aria-label={t('shell.language')}
-      className="flex items-center rounded-full border border-line bg-surface p-0.5"
+      className="flex shrink-0 items-center rounded-lg bg-gray-100 p-1"
     >
       <button
         type="button"

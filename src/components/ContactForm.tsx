@@ -11,8 +11,7 @@ interface ContactFormProps {
   onClose: () => void
 }
 
-const inputClass =
-  'w-full rounded-xl border border-line bg-surface px-3 py-2 text-sm text-ink placeholder:text-ink-soft/70 focus:border-brand focus:outline-none'
+const inputClass = 'ui-input w-full px-3 py-2 text-sm'
 const errorInputClass = 'border-danger'
 
 export function ContactForm({ contact, onClose }: ContactFormProps) {
@@ -41,7 +40,7 @@ export function ContactForm({ contact, onClose }: ContactFormProps) {
       name: values.name.trim(),
       relationship: values.relationship as Relationship,
       isPrimaryContact: values.isPrimaryContact,
-      ...(phone ? { phone } : {}),
+      phone: phone || undefined,
     }
     const ok = contact ? actions.updateContact(contact.id, input) : actions.addContact(input)
     if (!ok) {
@@ -68,14 +67,14 @@ export function ContactForm({ contact, onClose }: ContactFormProps) {
           <button
             type="button"
             onClick={onClose}
-            className="rounded-xl border border-line px-4 py-2 text-sm font-medium text-ink transition hover:bg-canvas"
+            className="ui-button-secondary"
           >
             {t('common.cancel')}
           </button>
           <button
             type="submit"
             form="contact-form"
-            className="rounded-xl bg-brand px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-dark"
+            className="ui-button"
           >
             {t('common.save')}
           </button>
@@ -84,7 +83,7 @@ export function ContactForm({ contact, onClose }: ContactFormProps) {
     >
       <form id="contact-form" onSubmit={handleSubmit} className="space-y-4" noValidate>
         <div>
-          <label htmlFor="contact-name" className="mb-1 block text-sm font-medium text-ink">
+          <label htmlFor="contact-name" className="mb-1.5 block text-sm font-medium text-ink">
             {t('family.name')}
           </label>
           <input
@@ -101,7 +100,7 @@ export function ContactForm({ contact, onClose }: ContactFormProps) {
         </div>
 
         <div>
-          <label htmlFor="contact-relationship" className="mb-1 block text-sm font-medium text-ink">
+          <label htmlFor="contact-relationship" className="mb-1.5 block text-sm font-medium text-ink">
             {t('family.relationship')}
           </label>
           <select
@@ -122,7 +121,7 @@ export function ContactForm({ contact, onClose }: ContactFormProps) {
         </div>
 
         <div>
-          <label htmlFor="contact-phone" className="mb-1 block text-sm font-medium text-ink">
+          <label htmlFor="contact-phone" className="mb-1.5 block text-sm font-medium text-ink">
             {t('family.phone')}{' '}
             <span className="text-xs font-normal text-ink-soft">({t('common.optional')})</span>
           </label>
@@ -140,18 +139,22 @@ export function ContactForm({ contact, onClose }: ContactFormProps) {
           {fieldError('phone')}
         </div>
 
-        <label className="flex items-start gap-3 rounded-xl border border-line px-3 py-3 text-sm text-ink">
+        <label className="ui-panel flex cursor-pointer items-center gap-3 p-4 text-sm text-ink">
           <input
             type="checkbox"
             checked={values.isPrimaryContact}
             onChange={(event) =>
               setValues((prev) => ({ ...prev, isPrimaryContact: event.target.checked }))
             }
-            className="mt-0.5 h-4 w-4 accent-[#0F766E]"
+            className="peer sr-only"
           />
-          <span>
+          <span
+            aria-hidden="true"
+            className="relative h-6 w-11 shrink-0 rounded-lg bg-ink-soft shadow-inner transition-colors after:absolute after:left-1 after:top-1 after:h-4 after:w-4 after:rounded after:bg-white after:shadow-sm after:transition-transform after:content-[''] peer-checked:bg-brand peer-checked:after:translate-x-5 peer-focus-visible:ring-2 peer-focus-visible:ring-brand-accent peer-focus-visible:ring-offset-2 motion-reduce:transition-none motion-reduce:after:transition-none"
+          />
+          <span className="font-medium">
             {t('family.primaryToggle')}
-            <span className="mt-0.5 block text-xs text-ink-soft">{t('family.primary')}</span>
+            <span className="mt-1 block text-xs font-normal text-ink-soft">{t('family.primary')}</span>
           </span>
         </label>
       </form>

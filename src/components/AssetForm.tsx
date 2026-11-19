@@ -16,8 +16,7 @@ interface AssetFormProps {
   onClose: () => void
 }
 
-const inputClass =
-  'w-full rounded-xl border border-line bg-surface px-3 py-2 text-sm text-ink placeholder:text-ink-soft/70 focus:border-brand focus:outline-none'
+const inputClass = 'ui-input w-full px-3 py-2 text-sm'
 const errorInputClass = 'border-danger'
 
 export function AssetForm({ asset, onClose }: AssetFormProps) {
@@ -73,23 +72,28 @@ export function AssetForm({ asset, onClose }: AssetFormProps) {
           <button
             type="button"
             onClick={onClose}
-            className="rounded-xl border border-line px-4 py-2 text-sm font-medium text-ink transition hover:bg-canvas"
+            className="ui-button-secondary"
           >
             {t('common.cancel')}
           </button>
           <button
             type="submit"
             form="asset-form"
-            className="rounded-xl bg-brand px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-dark"
+            className="ui-button"
           >
             {t('common.save')}
           </button>
         </>
       }
     >
-      <form id="asset-form" onSubmit={handleSubmit} className="space-y-4" noValidate>
-        <div>
-          <label htmlFor="asset-name" className="mb-1 block text-sm font-medium text-ink">
+      <form
+        id="asset-form"
+        onSubmit={handleSubmit}
+        className="grid gap-4 sm:grid-cols-2"
+        noValidate
+      >
+        <div className="sm:col-span-2">
+          <label htmlFor="asset-name" className="mb-1.5 block text-sm font-medium text-ink">
             {t('assets.name')}
           </label>
           <input
@@ -106,7 +110,7 @@ export function AssetForm({ asset, onClose }: AssetFormProps) {
         </div>
 
         <div>
-          <label htmlFor="asset-category" className="mb-1 block text-sm font-medium text-ink">
+          <label htmlFor="asset-category" className="mb-1.5 block text-sm font-medium text-ink">
             {t('assets.category')}
           </label>
           <select
@@ -124,7 +128,7 @@ export function AssetForm({ asset, onClose }: AssetFormProps) {
         </div>
 
         <div>
-          <label htmlFor="asset-institution" className="mb-1 block text-sm font-medium text-ink">
+          <label htmlFor="asset-institution" className="mb-1.5 block text-sm font-medium text-ink">
             {t('assets.institution')}{' '}
             <span className="text-xs font-normal text-ink-soft">({t('common.optional')})</span>
           </label>
@@ -142,7 +146,7 @@ export function AssetForm({ asset, onClose }: AssetFormProps) {
         </div>
 
         <div>
-          <label htmlFor="asset-value" className="mb-1 block text-sm font-medium text-ink">
+          <label htmlFor="asset-value" className="mb-1.5 block text-sm font-medium text-ink">
             {t('assets.value')}
           </label>
           <input
@@ -163,7 +167,7 @@ export function AssetForm({ asset, onClose }: AssetFormProps) {
         <div>
           <label
             htmlFor="asset-document-location"
-            className="mb-1 block text-sm font-medium text-ink"
+            className="mb-1.5 block text-sm font-medium text-ink"
           >
             {t('assets.documentLocation')}{' '}
             <span className="text-xs font-normal text-ink-soft">({t('common.optional')})</span>
@@ -181,8 +185,8 @@ export function AssetForm({ asset, onClose }: AssetFormProps) {
           {fieldError('documentLocation')}
         </div>
 
-        <div>
-          <label htmlFor="asset-notes" className="mb-1 block text-sm font-medium text-ink">
+        <div className="sm:col-span-2">
+          <label htmlFor="asset-notes" className="mb-1.5 block text-sm font-medium text-ink">
             {t('assets.notes')}{' '}
             <span className="text-xs font-normal text-ink-soft">({t('common.optional')})</span>
           </label>

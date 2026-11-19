@@ -49,7 +49,7 @@ export const DEMO_PERSONAS: DemoPersona[] = [
     assets: [
       asset('ahmad-a1', 'Rumah Kediaman', 'Property', '', 250000, 'Fail Biru di Rumah', '2026-11-01T02:00:00.000Z'),
       asset('ahmad-a2', 'Simpanan ASB', 'Investments (ASB, unit trust, shares)', 'ASNB', 35000, 'Portal ASNB (rujukan dokumen sahaja)', '2026-11-02T02:00:00.000Z'),
-      asset('ahmad-a3', 'Akaun Simpanan', 'Bank Savings', 'Bank Demo', 15000, 'Fail Penyata Bank', '2026-11-03T02:00:00.000Z'),
+      asset('ahmad-a3', 'Akaun Simpanan', 'Bank Savings', 'Contoh Bank', 15000, 'Fail Penyata Bank', '2026-11-03T02:00:00.000Z'),
       asset('ahmad-a4', 'Kereta Perodua Myvi', 'Vehicle', '', 30000, 'Fail Kenderaan', '2026-11-04T02:00:00.000Z'),
     ],
     contacts: [
@@ -65,9 +65,9 @@ export const DEMO_PERSONAS: DemoPersona[] = [
     readiness: { documents: true, planning: false, emergency: true },
     assets: [
       asset('lim-a1', 'Teres', 'Property', '', 420000, 'Fail Hartanah di Rumah', '2026-11-01T03:00:00.000Z'),
-      asset('lim-a2', 'Shares in family Sdn Bhd', 'Business Interest', 'Syarikat Keluarga Demo', 180000, 'Fail Syarikat', '2026-11-02T03:00:00.000Z'),
+      asset('lim-a2', 'Shares in family Sdn Bhd', 'Business Interest', 'Contoh Syarikat Keluarga', 180000, 'Fail Syarikat', '2026-11-02T03:00:00.000Z'),
       asset('lim-a3', 'EPF', 'EPF / KWSP', 'KWSP', 95000, 'Portal KWSP (rujukan)', '2026-11-03T03:00:00.000Z'),
-      asset('lim-a4', 'Unit trust', 'Investments (ASB, unit trust, shares)', 'Fund Demo', 60000, 'Fail Pelaburan', '2026-11-04T03:00:00.000Z'),
+      asset('lim-a4', 'Unit trust', 'Investments (ASB, unit trust, shares)', 'Sample Fund', 60000, 'Fail Pelaburan', '2026-11-04T03:00:00.000Z'),
     ],
     contacts: [
       contact('lim-c1', 'Tan Mei Ling', 'Spouse', true),
@@ -83,7 +83,7 @@ export const DEMO_PERSONAS: DemoPersona[] = [
       asset('rajesh-a1', 'Apartment', 'Property', '', 300000, 'Fail Hartanah', '2026-11-01T04:00:00.000Z'),
       asset('rajesh-a2', 'Gold and jewellery', 'Cash, Gold and Jewellery', '', 45000, 'Peti Simpanan', '2026-11-02T04:00:00.000Z'),
       asset('rajesh-a3', 'EPF', 'EPF / KWSP', 'KWSP', 120000, 'Portal KWSP', '2026-11-03T04:00:00.000Z'),
-      asset('rajesh-a4', 'Fixed deposit', 'Bank Savings', 'Bank Demo', 80000, 'Fail Penyata Bank', '2026-11-04T04:00:00.000Z'),
+      asset('rajesh-a4', 'Fixed deposit', 'Bank Savings', 'Contoh Bank', 80000, 'Fail Penyata Bank', '2026-11-04T04:00:00.000Z'),
     ],
     contacts: [
       contact('rajesh-c1', 'Kavitha', 'Spouse', true),
@@ -98,7 +98,7 @@ export const DEMO_PERSONAS: DemoPersona[] = [
     readiness: { documents: false, planning: false, emergency: true },
     assets: [
       asset('dayang-a1', 'NCR farmland (indicative)', 'Property', '', 150000, 'Dokumen Tanah NCR', '2026-11-01T05:00:00.000Z'),
-      asset('dayang-a2', 'Savings', 'Bank Savings', 'Bank Demo', 12000, 'Fail Penyata Bank', '2026-11-02T05:00:00.000Z'),
+      asset('dayang-a2', 'Savings', 'Bank Savings', 'Contoh Bank', 12000, 'Fail Penyata Bank', '2026-11-02T05:00:00.000Z'),
       asset('dayang-a3', 'Vehicle', 'Vehicle', '', 25000, 'Fail Kenderaan', '2026-11-03T05:00:00.000Z'),
     ],
     contacts: [

@@ -29,16 +29,14 @@ export function ConfirmDialog({
           <button
             type="button"
             onClick={onCancel}
-            className="rounded-xl border border-line px-4 py-2 text-sm font-medium text-ink transition hover:bg-canvas"
+            className="ui-button-secondary"
           >
             {cancelLabel}
           </button>
           <button
             type="button"
             onClick={onConfirm}
-            className={`rounded-xl px-4 py-2 text-sm font-semibold text-white transition ${
-              danger ? 'bg-danger hover:bg-red-700' : 'bg-brand hover:bg-brand-dark'
-            }`}
+            className={danger ? 'ui-button-danger' : 'ui-button'}
           >
             {confirmLabel}
           </button>
