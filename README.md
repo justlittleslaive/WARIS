@@ -18,6 +18,32 @@ The project retains the `warisready` package and storage names. The interface us
 
 Detailed inheritance-learning content is still in development. The sample profiles cover Muslim, non-Muslim civil, and Sabah/Sarawak native-customary contexts; they do not provide legal calculations or personalised legal advice.
 
+## System screenshots
+
+Screenshots of the MyWaris interface using the built-in Ahmad sample profile. Select an image to view it at full size.
+
+### Landing page
+
+[![MyWaris landing page with branded carousel and navigation](docs/screenshots/landing.jpg)](docs/screenshots/landing.jpg)
+
+### Workspace
+
+| Workspace entry | Dashboard |
+| --- | --- |
+| [![Workspace entry with sample-profile selection](docs/screenshots/login.jpg)](docs/screenshots/login.jpg) | [![Dashboard with asset totals, readiness progress, and next steps](docs/screenshots/dashboard.jpg)](docs/screenshots/dashboard.jpg) |
+
+| Asset management | Family contacts |
+| --- | --- |
+| [![Asset records with search, filters, and editing controls](docs/screenshots/assets.jpg)](docs/screenshots/assets.jpg) | [![Family contacts with primary-contact status and editing controls](docs/screenshots/family.jpg)](docs/screenshots/family.jpg) |
+
+| Readiness checklist | Emergency summary |
+| --- | --- |
+| [![Inheritance-readiness checklist and progress score](docs/screenshots/readiness.jpg)](docs/screenshots/readiness.jpg) | [![Printable emergency summary with asset and family information](docs/screenshots/summary.jpg)](docs/screenshots/summary.jpg) |
+
+### Mobile view
+
+<a href="docs/screenshots/mobile.jpg"><img src="docs/screenshots/mobile.jpg" alt="MyWaris dashboard on a mobile screen" width="320"></a>
+
 ## Current architecture and limitations
 
 | Component | Status |
