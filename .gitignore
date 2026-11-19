@@ -1,6 +1,7 @@
 node_modules/
 dist/
 .shots/
+.mysql-data/
 *.local
 .env
-.env.*
+.env.local
