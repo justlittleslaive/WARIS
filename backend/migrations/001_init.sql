@@ -52,5 +52,3 @@ CREATE TABLE IF NOT EXISTS contacts (
   KEY idx_contacts_profile (profile_id),
   CONSTRAINT fk_contacts_profile FOREIGN KEY (profile_id) REFERENCES profiles (id) ON DELETE CASCADE
 ) ENGINE = InnoDB;
-
-INSERT INTO profiles (id, updated_at) VALUES (1, UTC_TIMESTAMP(3)) ON DUPLICATE KEY UPDATE id = id;

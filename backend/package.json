@@ -8,11 +8,20 @@
   },
   "scripts": {
     "start": "node --env-file=.env src/server.js",
-    "dev": "node --env-file=.env --watch src/server.js"
+    "dev": "node --env-file=.env --watch src/server.js",
+    "db:migrate": "node --env-file=.env src/scripts/migrate.js",
+    "db:seed": "node --env-file=.env src/scripts/seed.js",
+    "db:setup": "npm run db:migrate && npm run db:seed",
+    "test": "node --env-file=.env --test"
   },
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^5.1.0",
+    "express-rate-limit": "^8.7.5",
+    "helmet": "^8.3.0",
     "mysql2": "^3.14.0"
+  },
+  "devDependencies": {
+    "supertest": "^7.3.2"
   }
 }

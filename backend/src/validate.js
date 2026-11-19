@@ -1,3 +1,5 @@
+import { randomUUID } from 'node:crypto'
+
 export const ASSET_CATEGORIES = [
   'Bank Savings',
   'Property',
@@ -173,4 +175,123 @@ export function validateProfilePatch(body) {
 
   if (Object.keys(out).length === 0) fail('No supported fields to update')
   return out
+}
+
+export const MAX_IMPORT_ASSETS = 500
+export const MAX_IMPORT_CONTACTS = 200
+
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
+function readImportId(value, seen) {
+  const candidate = typeof value === 'string' && UUID_RE.test(value) ? value : randomUUID()
+  if (seen.has(candidate)) return randomUUID()
+  seen.add(candidate)
+  return candidate
+}
+
+function readImportDate(value) {
+  if (typeof value === 'string' && !Number.isNaN(Date.parse(value))) {
+    return new Date(value).toISOString()
+  }
+  return new Date().toISOString()
+}
+
+function readImportProfile(source) {
+  const name = readText(source.name, 'name', 100) ?? ''
+  const legalTrack = readEnum(source.legalTrack, 'legalTrack', LEGAL_TRACKS) ?? 'unsure'
+
+  let state = null
+  if (source.state !== undefined && source.state !== null && source.state !== '') {
+    state = readEnum(source.state, 'state', MALAYSIAN_STATES, { required: true })
+  }
+  if (legalTrack === 'native-customary' && state !== 'Sabah' && state !== 'Sarawak') {
+    fail('state must be Sabah or Sarawak for the native-customary track')
+  }
+
+  const language = readEnum(source.language, 'language', LANGUAGES) ?? 'ms'
+
+  const readiness = { documents: false, planning: false, emergency: false }
+  if (source.readiness !== undefined) {
+    if (!isRecord(source.readiness)) fail('readiness must be an object')
+    for (const key of Object.keys(readiness)) {
+      const value = source.readiness[key]
+      if (value === undefined) continue
+      if (typeof value !== 'boolean') fail(`readiness.${key} must be a boolean`)
+      readiness[key] = value
+    }
+  }
+
+  return { name, legalTrack, state, language, readiness }
+}
+
+function readImportAssets(value) {
+  if (value === undefined) return []
+  if (!Array.isArray(value)) fail('assets must be an array')
+  if (value.length > MAX_IMPORT_ASSETS) {
+    fail(`assets must contain at most ${MAX_IMPORT_ASSETS} items`)
+  }
+
+  const seen = new Set()
+  return value.map((item, index) => {
+    try {
+      const input = validateAssetInput(item)
+      return {
+        id: readImportId(item.id, seen),
+        name: input.name,
+        category: input.category,
+        institution: input.institution ?? '',
+        estimatedValue: input.estimatedValue,
+        documentLocation: input.documentLocation ?? '',
+        notes: input.notes ?? null,
+        createdAt: readImportDate(item.createdAt),
+      }
+    } catch (error) {
+      if (error instanceof ValidationError) fail(`assets[${index}]: ${error.message}`)
+      throw error
+    }
+  })
+}
+
+function readImportContacts(value) {
+  if (value === undefined) return []
+  if (!Array.isArray(value)) fail('contacts must be an array')
+  if (value.length > MAX_IMPORT_CONTACTS) {
+    fail(`contacts must contain at most ${MAX_IMPORT_CONTACTS} items`)
+  }
+
+  const seen = new Set()
+  let primarySeen = false
+  return value.map((item, index) => {
+    try {
+      const input = validateContactInput(item)
+      const isPrimaryContact = input.isPrimaryContact === true
+      let keepPrimary = isPrimaryContact
+      if (keepPrimary && primarySeen) keepPrimary = false
+      if (keepPrimary) primarySeen = true
+      return {
+        id: readImportId(item.id, seen),
+        name: input.name,
+        relationship: input.relationship,
+        phone: input.phone ?? null,
+        isPrimaryContact: keepPrimary,
+      }
+    } catch (error) {
+      if (error instanceof ValidationError) fail(`contacts[${index}]: ${error.message}`)
+      throw error
+    }
+  })
+}
+
+// Accepts the localStorage envelope ({ schemaVersion, profile }) or a bare profile.
+export function validateImport(body) {
+  if (!isRecord(body)) fail('Body must be a JSON object')
+  if (body.schemaVersion !== undefined && body.schemaVersion !== 1) {
+    fail('Unsupported schemaVersion')
+  }
+  const source = isRecord(body.profile) ? body.profile : body
+  return {
+    profile: readImportProfile(source),
+    assets: readImportAssets(source.assets),
+    contacts: readImportContacts(source.contacts),
+  }
 }
